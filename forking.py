@@ -6,14 +6,15 @@ from multiprocessing import (
 )
 
 def array_split(array: list, nsplits: int):
-    """_summary_
+    """split a list of items evenly between n lists.
+    Very similar to numpy.array_split, but much more lightweight
 
     Args:
-        array (list): _description_
-        nsplits (int): _description_
+        array (list): list of items
+        nsplits (int): the number of lists for final result
 
     Returns:
-        _type_: _description_
+        list[list[Any]]: 
     """
     from math import floor
     lines_per_sub_array = len(array) / nsplits
@@ -33,7 +34,7 @@ def forking(func: callable, array: list, num_process: int = 2,
         array (list): inputs for the functions
         num_process (int, optional): number of prcesses. Defaults to 2.
         batch (int, optional): the size of each batch. Defaults to 1.
-        shares ()
+        shares (): variables that can be shared between processes
     """
     
     # validating inputs
@@ -43,7 +44,6 @@ def forking(func: callable, array: list, num_process: int = 2,
     if batch < 1:
         raise Exception('The size of a batch must be at least 1')
         
-    # manager can be slow
     manager = Manager()
     shared_list = []
     for share_item in shares:
